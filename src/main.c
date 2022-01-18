@@ -24,25 +24,28 @@ void putb(u8 b){
 }
 
 void kentry(void){
-	u32 i, j;
-	init_video();
+	// init kernel
+	video_init();
 	idt_init();
+	timer_install();
+	keyboard_install();
 
+	// reenable interrupts
 	nmi_enable();
 	irq_enable_all();
 	sti();
 
-/*
-	for(i = 0x00; i <= 0xFF; i += 1){
-		settextcolor((i >> 4) & 0x0F, i & 0x0F);
-		putch('(');
-		putb((i >> 4) & 0x0F);
-		putch(',');
-		putb(i & 0x0F);
-		putch(')');
-		putch('\n');
-		for(j = 0; j < 0x7FFFFFF; j += 1);
+
+	for(;;){
+		u32 i;
+		for(i = 0x00; i <= 0xFF; i += 1){
+			if((i & 0xF) == ((i >> 4) & 0xF))
+				continue;
+			timer_wait(1);
+			settextcolor((i >> 4) & 0x0F, i & 0x0F);
+			puts("one second has passed\n");
+		}
 	}
-*/
+
 	for(;;);
 }

@@ -140,3 +140,44 @@ set_idt_entry:
 	mov byte [edi + 0x05], 0x8E
 	
 	ret
+
+; because we're still in real mode, we can
+; ignore the upper word of the idt entry
+align 8
+_idt32_data:
+%macro idt32_entry 1
+	dw %1, 0x0008, 0x8E00, 0x0000
+%endmacro
+	idt32_entry _isr0
+	idt32_entry _isr1
+	idt32_entry _isr2
+	idt32_entry _isr3
+	idt32_entry _isr4
+	idt32_entry _isr5
+	idt32_entry _isr6
+	idt32_entry _isr7
+	idt32_entry _isr8
+	idt32_entry _isr9
+	idt32_entry _isr10
+	idt32_entry _isr11
+	idt32_entry _isr12
+	idt32_entry _isr13
+	idt32_entry _isr14
+	idt32_entry _isr15
+	idt32_entry _isr16
+	idt32_entry _isr17
+	idt32_entry _isr18
+	idt32_entry _isr19
+	idt32_entry _isr20
+	idt32_entry _isr21
+	idt32_entry _isr22
+	idt32_entry _isr23
+	idt32_entry _isr24
+	idt32_entry _isr25
+	idt32_entry _isr26
+	idt32_entry _isr27
+	idt32_entry _isr28
+	idt32_entry _isr29
+	idt32_entry _isr30
+	idt32_entry _isr31
+%undef idt32_entry

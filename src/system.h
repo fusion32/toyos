@@ -37,24 +37,31 @@ extern void idt_set(u32 nr, u32 base);
 extern void idt_init(void);
 
 // irq.c
+extern void irq_install_callback(u32 nr, void *callback);
 extern void irq_install(void);
 
 // isr.c
 extern void isr_install(void);
 
-// gdt.c
+// keyboard.c
+extern void keyboard_install(void);
 
 // main.c
 extern u8 inportb(u16 port);
 extern void outportb(u16 port, u8 data);
 extern void putb(u8 b);
 
+// timer.c
+extern void timer_freq(u32 hz);
+extern void timer_install(void);
+extern void timer_wait(u32 secs);
+
 // vga.c
 extern void cls(void);
 extern void putch(u8 ch);
 extern void puts(const char *str);
 extern void settextcolor(u8 background, u8 foreground);
-extern void init_video(void);
+extern void video_init(void);
 
 
 #endif //SYSTEM_H_

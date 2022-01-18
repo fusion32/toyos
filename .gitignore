@@ -1,0 +1,8 @@
+
+*.exe
+*.obj
+*.o
+*.iso
+
+build/
+log.txt

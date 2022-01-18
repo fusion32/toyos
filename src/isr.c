@@ -37,7 +37,6 @@ void isr_handler(struct interrupt_state *s){
 	puts("ISR ");
 	putb((u8)s->int_nr);
 	puts("\n");
-	sti();
 }
 
 void isr_install(void){

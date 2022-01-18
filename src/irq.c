@@ -17,14 +17,30 @@ extern void irq13(void);
 extern void irq14(void);
 extern void irq15(void);
 
+static void *irq_callbacks[] = {
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+};
+
+void irq_install_callback(u32 nr, void *callback){
+	irq_callbacks[nr] = callback;
+}
+
 void irq_handler(struct interrupt_state *s){
-	puts("IRQ ");
-	putb((u8)s->int_nr);
-	puts("\n");
+	//puts("IRQ ");
+	//putb((u8)(s->int_nr - 0x20));
+	//puts("\n");
+
+	void *(*callback)(struct interrupt_state*);
+	callback = irq_callbacks[s->int_nr - 0x20];
+	if(callback)
+		callback(s);
+
+	// send EOI to slave PIC if it was cascaded from it
 	if(s->int_nr >= 40)
 		outportb(0x00A0, 0x20);
+	// send EOI to master PIC always
 	outportb(0x0020, 0x20);
-	sti();
 }
 
 #if 0

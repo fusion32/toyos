@@ -4,7 +4,7 @@
  * u16's where the high byte is the character's
  * attribute and the low byte is the character
 **/
-static u16 *text_ptr = NULL;
+static u16 *text_ptr = (u16*)0xB8000;
 static u16 text_attrib = 0x0F00;
 static i32 cursor_x = 0;
 static i32 cursor_y = 0;
@@ -39,7 +39,7 @@ void putch(u8 ch){
 			break;
 
 		case 0x09: // tab
-			cursor_x = (cursor_x + 8) & ~7;
+			cursor_x = (cursor_x + 7) & ~7;
 			break;
 
 		case 0x0A: // new line
@@ -85,7 +85,6 @@ void settextcolor(u8 background, u8 foreground){
 	text_attrib <<= 8;
 }
 
-void init_video(void){
-	text_ptr = (u16*)0xB8000;
+void video_init(void){
 	cls();
 }

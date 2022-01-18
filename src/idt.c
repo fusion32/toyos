@@ -13,7 +13,7 @@ struct idt_ptr{
 	u32 base;
 } __attribute__((packed));
 
-static struct idt_entry idt[256];
+static struct idt_entry *idt = 0x00000000;
 void idt_set(u32 nr, u32 base){
 	struct idt_entry *entry = &idt[nr];
 	entry->base_low = base & 0xFFFF;
@@ -31,7 +31,7 @@ void putd(u32 d){
 }
 
 void idt_init(void){
-	struct idt_ptr idtp = {.limit = 0x07FF, .base = (u32)idt };
+	struct idt_ptr idtp = {.limit = 0x07FF, .base = 0x00000000 };
 	memset(idt, 0, sizeof(idt));
 	isr_install();
 	irq_install();
